@@ -1,0 +1,36 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %F:%L - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="DEBUG_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/tmp/logs/bring_debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/tmp/logs/bring_debug_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 90 days' worth of history -->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %F:%L - %msg%n</pattern>
+        </encoder>
+    </appender>   
+
+    <logger name="com.bring" level="DEBUG" />
+    <logger name="org.springframework" level="WARN" />
+    
+    <logger name="DEBUG_LOG" level="DEBUG" additivity="false">
+        <appender-ref ref="DEBUG_LOG"/>
+        <appender-ref ref="STDOUT" />
+    </logger>    
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
